@@ -30,7 +30,8 @@ suid (s in owner権限位置): プログラム実行時、実行者は一時的�
 このため、このプログラムは`level1`権限で実行され、`.pass`にアクセス可能となる。
 
 ## 動作確認
-`source.c`のコードを見ると`if (convertedValue == 423)`の条件がある。
+
+逆アセンブルした`source.c`のコードを見ると`if (convertedValue == 423)`の条件がある。
 
 これによりargvに423を渡せばlevel1のshが起動できる。
 
