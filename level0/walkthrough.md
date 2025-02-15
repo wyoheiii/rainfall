@@ -43,6 +43,6 @@ $ cat /home/user/level1/.pass
 
 ## memo
 setresuid()の呼び出し後:実効ユーザー、実ユーザー、保存されたuidがすべてlevel1に統一される。
-実装依存だけど`system()`はセキュリティ対策として、euidをruidにリセットする挙動する。
+`system()`はセキュリティ対策として、euidをruidにリセットする挙動する。実装依存だけど。
 一方、`execv`は現在のeuidを引き継ぐからsetしなくてもlevel1を実行できそうだから不要そうではある
 詳しく調べてないからわからん。
