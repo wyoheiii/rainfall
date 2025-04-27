@@ -1,1 +1,24 @@
-#include <stdio.h>\nint\nmain(void) {\n  printf("Code, source!\n");\n  return (0x0);\n}
+void p(void)
+
+{
+  uint unaff_retaddr;
+  char local_50 [76];
+
+  fflush(stdout);
+  gets(local_50);
+  if ((unaff_retaddr & 0xb0000000) == 0xb0000000) {
+    printf("(%p)\n",unaff_retaddr);
+                    /* WARNING: Subroutine does not return */
+    _exit(1);
+  }
+  puts(local_50);
+  strdup(local_50);
+  return;
+}
+
+void main(void)
+
+{
+  p();
+  return;
+}
