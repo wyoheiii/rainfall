@@ -13,6 +13,22 @@ pw `level0`
 ## ファイルをローカルに移動
 `scp -P 4242 level0@192.168.0.143:level0 level0`
 
+## ans
+ディスアセンブルした`source.c`のコードを見ると`if (convertedValue == 423)`の条件がある。
+argvに423を渡せばlevel1のshが起動できる。
+
+```
+level0@RainFall:~$ ./level0 423
+$ cat /home/user/level1/.pass
+1fe8a524fa4bec01ca4ea2a869af2a02260d4a7d5fe7e7c24d8617e6dca12d3a
+```
+
+## memo
+setresuid()の呼び出し後:実効ユーザー、実ユーザー、保存されたuidがすべてlevel1に統一される。
+`system()`はセキュリティ対策として、euidをruidにリセットする挙動する。実装依存だけど。
+一方、`execv`は現在のeuidを引き継ぐからsetしなくてもlevel1を実行できそうだから不要そうではある
+詳しく調べてないからわからん。
+
 ##　ファイルの権限を確認
 ```
 level0@RainFall:~$ ls -l
@@ -28,21 +44,3 @@ total 732
 
 suid (s in owner権限位置): プログラム実行時、実行者は一時的にファイル所有者 (この場合 level1) の権限で実行できる。
 このため、このプログラムは`level1`権限で実行され、`.pass`にアクセス可能となる。
-
-## 動作確認
-
-逆アセンブルした`source.c`のコードを見ると`if (convertedValue == 423)`の条件がある。
-
-これによりargvに423を渡せばlevel1のshが起動できる。
-
-```
-level0@RainFall:~$ ./level0 423
-$ cat /home/user/level1/.pass
-1fe8a524fa4bec01ca4ea2a869af2a02260d4a7d5fe7e7c24d8617e6dca12d3a
-```
-
-## memo
-setresuid()の呼び出し後:実効ユーザー、実ユーザー、保存されたuidがすべてlevel1に統一される。
-`system()`はセキュリティ対策として、euidをruidにリセットする挙動する。実装依存だけど。
-一方、`execv`は現在のeuidを引き継ぐからsetしなくてもlevel1を実行できそうだから不要そうではある
-詳しく調べてないからわからん。
